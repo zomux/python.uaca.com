@@ -36,7 +36,7 @@
   </select>
   <br/>
 </form>
-<input type="button" value="Parse It!" />
+<input type="button" onclick="parse()" value="Parse It!" />
 <br/>
 <label>Parse Result</label><br/>
 <div id="result"></div>
@@ -54,6 +54,12 @@ load_sample = function(sentenceId){
   if(!sentenceId) return;
   sentenceId = parseInt(sentenceId);
   $E("sentence").value = map_sentence[sentenceId];
+
+};
+parse_callback = function(){
+
+};
+parse = function(){
 
 };
 </script>
