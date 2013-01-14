@@ -19,7 +19,7 @@
 
 
 <label>Input a sentence</label><br/>
-<textarea id="sentence" name="sentence"></textarea>
+<input type="text" id="sentence" name="sentence" />
 <br/>
 <label>Sample Sentences</label><br/>
 <select onchange="load_sample(this.value);">
@@ -31,7 +31,7 @@
   <option value="5">it is estimated that such a ban would cut wheat yield by 26% ...</option>
 </select>
 <br/>
-<input type="submit" value="Parse It!" />
+<input type="button" value="Parse It!" />
 <br/>
 <label>Parse Result</label><br/>
 <div id="result"></div>
