@@ -1,0 +1,77 @@
+* { -webkit-font-smoothing: antialiased; margin: 0; padding: 0; border: none; outline: none; }
+  a:focus { outline: 1px dotted rgba(0,0,0,.5); }
+  
+body { text-align: center; background: #e5eef2; font: 22px/30px "Helvetica Neue", sans-serif; color: #859094; }
+h1 { padding-left: 100px; padding-top: 20px; position: relative; background: url(logo-lab.png) no-repeat ; height: 68px; color: #21526f; font: lighter 18px/32px "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", sans-serif; }
+  h1 span { display: block; font-size: 11px; line-height: 5px; color: #8d9da7; font-family: "Helvetica Neue", sans-serif; }
+  h1 a, ul li strong a:hover { color: #21526f; text-decoration: none; }
+h2 { font-size: 26px; font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", sans-serif; font-weight: lighter; color: #4380a5; padding-bottom: 12px; }
+h3 { font-size: 11px; font-weight: normal; line-height: 20px; }
+
+h4 { font-size: 16px; font-weight: bold; padding-top: 35px; color: #21526f;  }
+
+p { padding-bottom: 13px; }
+  p a { color: #3a7b98; }
+    p a:hover { text-decoration: none; }
+  p.error { background: #fff8cc url(warning.png) no-repeat 20px 50%; border: 1px solid #e6deaa; text-shadow: 0 1px 0 #fff; line-height: 20px; padding: 10px 20px 10px 55px; font-weight: bold; color: #897f3f; }
+  p.success { background: #f5ffcc url(success.png) no-repeat 20px 50%; border: 1px solid #d8e4a6; text-shadow: 0 1px 0 #fff; line-height: 20px; padding: 10px 20px 10px 55px; font-weight: bold; color: #85934b; }
+    p.success a { padding-left: 14px; }
+
+div.wrap { position: relative; text-align: left; width: 820px; padding: 40px; margin: 40px auto; background: #fff; -webkit-box-shadow: 0 2px 5px #c5dfea; -moz-box-shadow: 0 2px 5px #c5dfea; }
+div.block { margin-top: 20px; padding: 30px 0; }
+
+form { margin: 20px 0; }
+  form p { position: relative; display: block; height: 22px; line-height: 22px; padding-top: 13px;  -webkit-transition: background .2s linear; -moz-transition: background .2s linear; -o-transition: background .2s linear; transition: background .2s linear; }
+  form label { width: 90px; padding-right: 40px; font-weight: bold; color: #3a596a; cursor: pointer; text-align: right; }
+  form input, form textarea { border: 1px solid #c4d1d7; padding: 4px 7px; width: 250px; color: #677a82; font: 11px "Helvetica Neue", sans-serif;}
+    form input:focus, form p.active input, form textarea:focus, form p.active textarea { border: 1px solid #a4b0b5; -webkit-box-shadow: 0 0 5px #eec; }
+  form p.active, ul li:hover { background: #ffd; }
+  form span { color: #775; display: block; opacity: 0; -webkit-transition: opacity .2s linear; -moz-transition: opacity .2s linear; -o-transition: opacity .2s linear; transition: opacity .2s linear; }
+    form p.active span { opacity: 1; }
+  form input[type=checkbox] { margin-top: 5px; }
+  form textarea { height: 150px; width: 450px; }
+    form p.textarea span { clear: both; color: #9eadb3; display: block; opacity: 1; float: none; padding: 10px 0 0 130px; }
+      form p.textarea.active span { color: #775; }
+    form p.textarea { height: auto; clear: both; }
+  form input[type=file] { border: none !important; width: 262px; -webkit-box-shadow: none !important; padding: 3px 1px; }
+  form p.errors { border-bottom: 1px solid #e6deaa; background: #fff8cc url(warning.png) no-repeat 510px 50%; }
+  form p.submit { border-bottom: none; }
+
+  form input[type=submit] { background: #4c9cbf; border: none; text-transform: lowercase; font-weight: bold; font-size: 12px; width: auto; padding: 7px 14px; border-bottom: 1px solid #27799d; color: #fff; text-shadow: 0 1px 0 #338bb1; cursor: pointer; }
+    form input[type=submit]:active { margin-top: 1px; text-shadow: 0 -1px 0 #338bb1; }
+input[type=button] { background: #4c9cbf; border: none; text-transform: lowercase; font-weight: bold; font-size: 12px; width: auto; padding: 7px 14px; border-bottom: 1px solid #27799d; color: #fff; text-shadow: 0 1px 0 #338bb1; cursor: pointer; }
+input[type=button]:active { margin-top: 1px; text-shadow: 0 -1px 0 #338bb1; }
+.ghost { opacity: 0.5; cursor: not-allowed !important; }
+  .ghost * { cursor: not-allowed !important; }
+
+ul { display: block; position: relative; list-style: none; }
+  ul li { display: block; padding: 10px 10px 10px 100px; border-bottom: 1px solid #cde0e9; position: relative; -webkit-transition: background .2s linear; -moz-transition: background .2s linear; -o-transition: background .2s linear; transition: background .2s linear; }
+  ul li strong { font-size: 13px; }
+    ul li strong a { display: block; text-decoration: none; color: #3a596a; }
+    ul li strong a:hover { text-decoration: underline; }
+
+a.delete { width: 30px; height: 17px; background: url(delete.png) no-repeat 100% 0; display: block; text-indent: -999em; position: absolute; right: 10px; top: 13px; opacity: 0.5; }
+  a.delete:hover, li:hover a.delete { opacity: 1; -webkit-transition: opacity .2s linear; -moz-transition: opacity .2s linear; -o-transition: opacity .2s linear; transition: opacity .2s linear; }
+
+a.add { position: absolute; right: 10px; top: 10px; font: bold 12px/20px "Helvetica Neue", sans-serif; text-transform: uppercase; color: #fff; background: #3a596a; display: block; padding: 2px 10px; border-radius: 3px; -webkit-transition: background .2s linear; -moz-transition: background .2s linear; -o-transition: background .2s linear; transition: background .2s linear; }
+  a.add:hover { background: #000; }
+    
+code { background: #ffd; padding: 6px 12px; color: #997; border-bottom: 1px solid #eec; }
+  code::-selection { background: #eed; color: #553; }
+
+code { padding: 0; }
+h2 { padding-top: 30px; }
+h3 { font-weight: bold; font-size: 14px; color: #444; }
+span.code { font-family: monospace; color: #666; }
+
+dl { padding: 10px; }
+  dt { font-weight: bold; display: block; font-size: 12px; color: #666; }
+  dd { padding-left: 15px; padding-bottom: 14px; }
+
+a { font-size: 12px; }
+a { color: #333; border-bottom: 1px solid #ccc; text-decoration: none; padding-bottom: 1px; }
+  a:hover { color: #444; border-bottom: 1px solid #444; }
+
+.topright { position: absolute; top: 2px; right: 8px; }
+
+.singlepage-footer { position: absolute; width: 100%; left: 0px; bottom: 2px; font-size: 12px; text-align: center; }

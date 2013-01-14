@@ -1,0 +1,20 @@
+<!doctype html>
+<html>
+<head>
+  <title>{% block page-title %} UACA {% endblock %}</title>
+  <link href="/static/style/singlepage.css" rel="stylesheet" />
+  {% block page-header %}
+  {% endblock %}
+</head>
+<body>
+  <div class="wrap">
+   {% block page-body %}
+   {% endblock %}
+   <div class="singlepage-footer">
+    &copy; 2012, Rahpael Shu. All rights reserved.
+    </div>
+  </div>
+
+
+</body>
+</html>
