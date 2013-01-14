@@ -17,20 +17,21 @@
  <a href="http://www.nlp.mibel.cs.tsukuba.ac.jp">(Laboratory of Nature Language Processing, University of Tsukuba)</a>
 </p>
 
-
-<label>Input a sentence</label><br/>
-<input type="text" id="sentence" name="sentence" />
-<br/>
-<label>Sample Sentences</label><br/>
-<select onchange="load_sample(this.value);">
-  <option></option>
-  <option value="1">we have had two of the worst summers ...</option>
-  <option value="2">the anomaly of allowing imported food products ...</option>
-  <option value="3">however , on balance I think a lot of improvement ...</option>
-  <option value="4">therefore , I firmly believe that Member State governments ...</option>
-  <option value="5">it is estimated that such a ban would cut wheat yield by 26% ...</option>
-</select>
-<br/>
+<form>
+  <label>Input a sentence</label><br/>
+  <input type="text" id="sentence" name="sentence" />
+  <br/>
+  <label>Sample Sentences</label><br/>
+  <select onchange="load_sample(this.value);">
+    <option></option>
+    <option value="1">we have had two of the worst summers ...</option>
+    <option value="2">the anomaly of allowing imported food products ...</option>
+    <option value="3">however , on balance I think a lot of improvement ...</option>
+    <option value="4">therefore , I firmly believe that Member State governments ...</option>
+    <option value="5">it is estimated that such a ban would cut wheat yield by 26% ...</option>
+  </select>
+  <br/>
+</form>
 <input type="button" value="Parse It!" />
 <br/>
 <label>Parse Result</label><br/>
@@ -48,9 +49,7 @@ map_sentence = {
 load_sample = function(sentenceId){
   if(!sentenceId) return;
   sentenceId = parseInt(sentenceId);
-  $E("sample-sentence-area").innerHTML = map_sentence[sentenceId];
-  $E("text-cfg").value = map_cfgtree[sentenceId];
-  $E("text-dep").value = map_deptree[sentenceId];
+  $E("sentence").value = map_sentence[sentenceId];
 
 };
 </script>
