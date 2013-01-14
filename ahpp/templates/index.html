@@ -3,6 +3,9 @@
 {% block page-title %} Accurate Hierarchical Phrase Parser {% endblock %}
 
 {% block page-body %}
+<script
+   src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js"
+   type="text/javascript"></script>
 <h1>Accurate Hierarchical Phrase Parser Online Demo</h1>
 
 <p>
@@ -14,33 +17,25 @@
  <a href="http://www.nlp.mibel.cs.tsukuba.ac.jp">(Laboratory of Nature Language Processing, University of Tsukuba)</a>
 </p>
 
-<form method="post" action="?action=parse">
-  {% csrf_token %}
-  <label>Sample Sentences</label><br/>
-  <select onchange="load_sample(this.value);">
-    <option></option>
-    <option value="1">we have had two of the worst summers ...</option>
-    <option value="2">the anomaly of allowing imported food products ...</option>
-    <option value="3">however , on balance I think a lot of improvement ...</option>
-    <option value="4">therefore , I firmly believe that Member State governments ...</option>
-    <option value="5">it is estimated that such a ban would cut wheat yield by 26% ...</option>
-  </select>
-  <p id="sample-sentence-area">
-  </p>
-  <br/>
-  <label>CFG Parse Tree</label><br/>
-  <textarea id="text-cfg" name="cfgtree"></textarea>
-  <br/>
-  <label>Dependency Parse Tree</label><br/>
-  <textarea id="text-dep" name="deptree"></textarea>
-  <br/>
-  <input type="submit" value="Parse It!" />
-  {% if parse_result %}
-  <br/>
-  <label>Parse Result</label><br/>
-  <pre>{{ parse_result }}</pre>
-  {% endif %}
-</form>
+
+<label>Input a sentence</label><br/>
+<textarea id="sentence" name="sentence"></textarea>
+<br/>
+<label>Sample Sentences</label><br/>
+<select onchange="load_sample(this.value);">
+  <option></option>
+  <option value="1">we have had two of the worst summers ...</option>
+  <option value="2">the anomaly of allowing imported food products ...</option>
+  <option value="3">however , on balance I think a lot of improvement ...</option>
+  <option value="4">therefore , I firmly believe that Member State governments ...</option>
+  <option value="5">it is estimated that such a ban would cut wheat yield by 26% ...</option>
+</select>
+<br/>
+<input type="submit" value="Parse It!" />
+<br/>
+<label>Parse Result</label><br/>
+<div id="result"></div>
+
 <script type="text/javascript">
 $E = function(id){ return document.getElementById(id); };
 map_sentence = {
@@ -49,20 +44,6 @@ map_sentence = {
   3 : "however , on balance I think a lot of improvement is being made from the original proposal and I am inclined to support it .",
   4 : "therefore , I firmly believe that Member State governments need to do a lot more explaining of these matters with affected stakeholders, rather than taking the easy route of foisting the responsibility on the so-called Brussels bureaucrats .",
   5 : "it is estimated that such a ban would cut wheat yield by 26% to 62%, potato yield by 22% to 53% and some other vegetable yields by 25% to 77% .",
-};
-map_cfgtree = {
-  1 : "( (S (NP (NN we)) (VP (VBD had) (NP (NP (CD two)) (PP (IN of) (NP (NP (DT the) (JJS worst) (NNS summers)) (SBAR (WHNP (IN that)) (S (NP (PRP I)) (VP (VBP have) (ADVP (RB ever)) (VP (VBN seen) (PP (IN in) (NP (DT the) (JJ last) (CD two) (NNS years)))))))))) (PP (IN in) (NP (JJ northern) (NNP Europe)))) (. .)) )",
-  2 : "( (S (NP (NP (DT the) (NN anomaly)) (PP (IN of) (S (VP (VBG allowing) (NP (NP (VBN imported) (NN food) (NNS products)) (VP (VBG using) (NP (NN plant) (NN protection) (NNS products)))))))) (ADVP (RB generally)) (, ,) (SBAR (IN while) (S (NP (PRP we)) (VP (MD will) (RB not) (VP (VB allow) (S (NP (PRP$ our) (NNS farmers)) (VP (TO to) (VP (VB use) (NP (PRP them))))))))) (, ,) (VP (VBZ continues) (S (VP (TO to) (VP (VB be) (NP (NP (NP (CD one)) (PP (IN of) (NP (DT the) (NNS mysteries)))) (CC and) (NP (NP (CD one)) (PP (IN of) (NP (NP (DT the) (JJ major) (NNS problems)) (SBAR (S (NP (PRP we)) (VP (VBP have) (PP (IN with) (NP (NP (NN legislation)) (PP (IN of) (NP (DT this) (NN sort)))))))))))))))) (. .)) )",
-  3 : "( (SINV (ADVP (RB however)) (, ,) (PP (IN on) (NP (NN balance))) (S (NP (PRP I)) (VP (VBP think) (SBAR (S (S (NP (NP (DT a) (NN lot)) (PP (IN of) (NP (NN improvement)))) (VP (VBZ is) (VP (VBG being) (VP (VBN made) (PP (IN from) (NP (DT the) (JJ original) (NN proposal))))))) (CC and) (S (NP (PRP I)) (VP (VBP am) (VP (VBN inclined) (S (VP (TO to) (VP (VB support) (NP (PRP it)))))))))))) (. .)) )",
-  4 : "( (S (ADVP (RB therefore)) (, ,) (NP (PRP I)) (ADVP (RB firmly)) (VP (VBP believe) (SBAR (IN that) (S (NP (NNP Member) (NNP State) (NNS governments)) (VP (VBP need) (S (VP (TO to) (VP (VB do) (NP (NP (DT a) (ADJP (RB lot) (JJR more)) (VBG explaining)) (PP (IN of) (NP (DT these) (NNS matters)))) (PP (IN with) (NP (JJ affected) (NN stakeholders,)))))) (PP (RB rather) (IN than) (S (VP (VBG taking) (NP (NP (DT the) (JJ easy) (NN route)) (PP (IN of) (S (VP (VBG foisting) (NP (NP (DT the) (NN responsibility)) (PP (IN on) (NP (DT the) (JJ so-called) (NNS Brussels) (NNS bureaucrats))))))))))))))) (. .)) )",
-  5 : "( (S (NP (PRP it)) (VP (VBZ is) (VP (VBN estimated) (SBAR (IN that) (S (NP (PDT such) (DT a) (NN ban)) (VP (MD would) (VP (VB cut) (NP (NP (NP (NN wheat) (NN yield)) (PP (IN by) (NP (NP (QP (CD 26%) (TO to) (CD 62%,)) (NN potato) (NN yield)) (PP (IN by) (NP (NP (CD 22%)) (PP (TO to) (NP (CD 53%)))))))) (CC and) (NP (DT some) (JJ other) (NN vegetable) (NNS yields))) (PP (IN by) (NP (NP (CD 25%)) (PP (TO to) (NP (CD 77%))))))))))) (. .)) )"
-};
-map_deptree = {
-  1 : "nsubj(had-2, we-1)\nroot(ROOT-0, had-2)\ndobj(had-2, two-3)\nprep(two-3, of-4)\ndet(summers-7, the-5)\namod(summers-7, worst-6)\npobj(of-4, summers-7)\ndobj(seen-12, that-8)\nnsubj(seen-12, I-9)\naux(seen-12, have-10)\nadvmod(seen-12, ever-11)\nrcmod(summers-7, seen-12)\nprep(seen-12, in-13)\ndet(years-17, the-14)\namod(years-17, last-15)\nnum(years-17, two-16)\npobj(in-13, years-17)\nprep(had-2, in-18)\namod(Europe-20, northern-19)\npobj(in-18, Europe-20)",
-  2 : "det(anomaly-2, the-1)\nnsubj(continues-25, anomaly-2)\nprep(anomaly-2, of-3)\npcomp(of-3, allowing-4)\namod(products-7, imported-5)\nnn(products-7, food-6)\ndobj(allowing-4, products-7)\npartmod(products-7, using-8)\nnn(products-11, plant-9)\nnn(products-11, protection-10)\ndobj(using-8, products-11)\nadvmod(continues-25, generally-12)\nmark(allow-18, while-14)\nnsubj(allow-18, we-15)\naux(allow-18, will-16)\nneg(allow-18, not-17)\ndep(continues-25, allow-18)\nposs(farmers-20, our-19)\nnsubj(use-22, farmers-20)\naux(use-22, to-21)\nxcomp(allow-18, use-22)\ndobj(use-22, them-23)\nroot(ROOT-0, continues-25)\naux(one-28, to-26)\ncop(one-28, be-27)\nxcomp(continues-25, one-28)\nprep(one-28, of-29)\ndet(mysteries-31, the-30)\npobj(of-29, mysteries-31)\ncc(one-28, and-32)\nconj(one-28, one-33)\nprep(one-33, of-34)\ndet(problems-37, the-35)\namod(problems-37, major-36)\npobj(of-34, problems-37)\nnsubj(have-39, we-38)\nrcmod(problems-37, have-39)\nprep(have-39, with-40)\npobj(with-40, legislation-41)\nprep(legislation-41, of-42)\ndet(sort-44, this-43)\npobj(of-42, sort-44)",
-  3 : "advmod(think-6, however-1)\nprep(think-6, on-3)\npobj(on-3, balance-4)\nnsubj(think-6, I-5)\nroot(ROOT-0, think-6)\ndet(lot-8, a-7)\nnsubjpass(made-13, lot-8)\nprep(lot-8, of-9)\npobj(of-9, improvement-10)\naux(made-13, is-11)\nauxpass(made-13, being-12)\ndep(think-6, made-13)\nprep(made-13, from-14)\ndet(proposal-17, the-15)\namod(proposal-17, original-16)\npobj(from-14, proposal-17)\ncc(made-13, and-18)\nnsubjpass(inclined-21, I-19)\nauxpass(inclined-21, am-20)\nconj(made-13, inclined-21)\naux(support-23, to-22)\nxcomp(inclined-21, support-23)\ndobj(support-23, it-24)",
-  4 : "advmod(believe-5, therefore-1)\nnsubj(believe-5, I-3)\nadvmod(believe-5, firmly-4)\nroot(ROOT-0, believe-5)\ncomplm(need-10, that-6)\nnn(governments-9, Member-7)\nnn(governments-9, State-8)\nnsubj(need-10, governments-9)\nccomp(believe-5, need-10)\naux(do-12, to-11)\nxcomp(need-10, do-12)\ndet(more-15, a-13)\nadvmod(more-15, lot-14)\ndobj(do-12, more-15)\namod(more-15, explaining-16)\nprep(more-15, of-17)\ndet(matters-19, these-18)\npobj(of-17, matters-19)\nprep(do-12, with-20)\namod(stakeholders,-22, affected-21)\npobj(with-20, stakeholders,-22)\nadvmod(than-24, rather-23)\nprep(need-10, than-24)\npcomp(than-24, taking-25)\ndet(route-28, the-26)\namod(route-28, easy-27)\ndobj(taking-25, route-28)\nprep(route-28, of-29)\npcomp(of-29, foisting-30)\ndet(responsibility-32, the-31)\ndobj(foisting-30, responsibility-32)\nprep(responsibility-32, on-33)\ndet(bureaucrats-37, the-34)\namod(bureaucrats-37, so-called-35)\nnn(bureaucrats-37, Brussels-36)\npobj(on-33, bureaucrats-37)",
-  5 : "nsubjpass(estimated-3, it-1)\nauxpass(estimated-3, is-2)\nroot(ROOT-0, estimated-3)\ncomplm(cut-9, that-4)\npredet(ban-7, such-5)\ndet(ban-7, a-6)\nnsubj(cut-9, ban-7)\naux(cut-9, would-8)\nccomp(estimated-3, cut-9)\nnn(yield-11, wheat-10)\ndobj(cut-9, yield-11)\nprep(yield-11, by-12)\nnumber(62%,-15, 26%-13)\ndep(62%,-15, to-14)\nnum(yield-17, 62%,-15)\nnn(yield-17, potato-16)\npobj(by-12, yield-17)\nprep(yield-17, by-18)\npobj(by-18, 22%-19)\nprep(22%-19, to-20)\npobj(to-20, 53%-21)\ncc(yield-11, and-22)\ndet(yields-26, some-23)\namod(yields-26, other-24)\nnn(yields-26, vegetable-25)\nconj(yield-11, yields-26)\nprep(cut-9, by-27)\npobj(by-27, 25%-28)\nprep(25%-28, to-29)\npobj(to-29, 77%-30)"
 };
 load_sample = function(sentenceId){
   if(!sentenceId) return;
